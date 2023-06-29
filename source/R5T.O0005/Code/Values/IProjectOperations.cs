@@ -48,5 +48,34 @@ namespace R5T.O0005
                 projectFilePath,
                 projectFileReference);
         }
+
+        public async Task Add_ProjectReferences_WithoutSolutionUpdate(
+            IProjectFilePath projectFilePath,
+            IEnumerable<IProjectFileReference> projectFileReferences)
+        {
+            var values = projectFileReferences.Get_Values();
+
+            await Instances.ProjectFileOperator.AddProjectReferences_Idempotent(
+                projectFilePath.Value,
+                values);
+        }
+
+        public Task Add_ProjectReferences_WithoutSolutionUpdate(
+            IProjectFilePath projectFilePath,
+            params IProjectFileReference[] projectFileReferences)
+        {
+            return this.Add_ProjectReferences_WithoutSolutionUpdate(
+                projectFilePath,
+                projectFileReferences.AsEnumerable());
+        }
+
+        public Task Add_ProjectReference_WithoutSolutionUpdate(
+            IProjectFilePath projectFilePath,
+            IProjectFileReference projectFileReference)
+        {
+            return this.Add_ProjectReferences_WithoutSolutionUpdate(
+                projectFilePath,
+                projectFileReference);
+        }
     }
 }
